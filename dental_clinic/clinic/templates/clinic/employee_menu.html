@@ -1,0 +1,95 @@
+{% extends 'clinic/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Employee Menu</h2>
+
+    <!-- Employee Actions Section -->
+    <div class="row mt-4">
+        <!-- Patient List Button -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-3x mb-3"></i>
+                    <h5 class="card-title">Patient List</h5>
+                    <a href="{% url 'patient_list' %}" class="btn btn-primary">View Patients</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Appointment Button -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-plus fa-3x mb-3"></i>
+                    <h5 class="card-title">Create Appointment</h5>
+                    <a href="{% url 'create_appointment' %}" class="btn btn-primary">Schedule</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate Report Button -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-file-alt fa-3x mb-3"></i>
+                    <h5 class="card-title">Generate Report</h5>
+                    <a href="{% url 'report_generation' %}" class="btn btn-primary">Generate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Actions Section (Visible only to Admins) -->
+    {% if user.is_superuser %}
+    <div class="row mt-4">
+        <!-- Admin Panel Button -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-tools fa-3x mb-3"></i>
+                    <h5 class="card-title">Admin Panel</h5>
+                    <a href="/admin/" class="btn btn-danger">Go to Admin Panel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Links to Other Pages -->
+    <div class="row mt-4">
+        <!-- Doctor List Button -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-md fa-3x mb-3"></i>
+                    <h5 class="card-title">Doctor List</h5>
+                    <a href="{% url 'doctor_list' %}" class="btn btn-secondary">View Doctors</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services List Button -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-list fa-3x mb-3"></i>
+                    <h5 class="card-title">Services List</h5>
+                    <a href="{% url 'service_list' %}" class="btn btn-secondary">View Services</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Us Button -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-info-circle fa-3x mb-3"></i>
+                    <h5 class="card-title">Contact Us</h5>
+                    <a href="{% url 'about_us' %}" class="btn btn-secondary">View Contact Info</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

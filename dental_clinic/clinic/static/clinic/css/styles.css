@@ -1,0 +1,13 @@
+/* styles.css */
+
+table {
+    margin-top: 20px;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.btn-sm {
+    padding: 0.3rem 0.6rem;
+}

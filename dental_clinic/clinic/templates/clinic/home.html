@@ -1,0 +1,45 @@
+{% extends 'clinic/base.html' %}
+{% load static %}
+{% block title %}
+    Home | Dental Clinic
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">Welcome to the Dental Clinic</h1>
+    <p class="lead">Providing the best dental care with highly qualified professionals.</p>
+    <hr class="my-4">
+    <p>Explore our services, meet our doctors, or contact us for more information.</p>
+
+    <div class="mt-4">
+        <a class="btn btn-primary btn-lg mr-2" href="{% url 'doctor_list' %}" role="button">View Doctors</a>
+        <a class="btn btn-success btn-lg mr-2" href="{% url 'service_list' %}" role="button">View Services</a>
+        <a class="btn btn-info btn-lg mr-2" href="{% url 'about_us' %}" role="button">Contact Us</a>
+        {% if not user.is_authenticated %}
+        <a class="btn btn-outline-dark btn-lg" href="{% url 'login' %}" role="button">Login</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Clinic Highlights Section -->
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <img src="{% static 'clinic/images/doctor.png' %}" alt="Doctors" class="img-fluid mb-3" style="width: 100px;">
+            <h3>Expert Doctors</h3>
+            <p>Our clinic is home to a team of highly skilled and experienced dentists who are ready to serve you.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="{% static 'clinic/images/service.png' %}" alt="Services" class="img-fluid mb-3" style="width: 100px;">
+            <h3>Wide Range of Services</h3>
+            <p>We provide a full range of dental services, including preventive care, surgery, and cosmetic dentistry.</p>
+        </div>
+        <div class="col-md-4 text-center">
+            <img src="{% static 'clinic/images/contact.png' %}" alt="Contact" class="img-fluid mb-3" style="width: 100px;">
+            <h3>Contact Us</h3>
+            <p>Reach out to us anytime for consultations or scheduling appointments. We're here to help you smile brighter.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

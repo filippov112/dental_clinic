@@ -1,0 +1,59 @@
+{% extends 'clinic/base.html' %}
+{% load static %}
+
+{% block title %}
+    Doctor Details - {{ doctor.FirstName }} {{ doctor.LastName }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">{{ doctor.FirstName }} {{ doctor.LastName }}</h1>
+
+    <div class="row">
+        <!-- Doctor Photo Section -->
+        <div class="col-md-4">
+            <img src="{% if doctor.Photo %}{{ doctor.Photo.url }}{% else %}{% static 'clinic/images/default_doctor.png' %}{% endif %}" class="img-fluid rounded" alt="Doctor Photo">
+        </div>
+
+        <!-- Doctor Information Section -->
+        <div class="col-md-8">
+            <h5>Specialization: {{ doctor.Specialization.Name }}</h5>
+            <h6>Category: {{ doctor.Category.Name }}</h6>
+            <p><strong>Work Schedule:</strong> {{ doctor.WorkSchedule }}</p>
+
+            <!-- List of Phone Numbers -->
+            <h5>Contact Information:</h5>
+            {% if doctor.phone_set.all %}
+                <ul>
+                    {% for phone in doctor.phone_set.all %}
+                        <li><strong>{{ phone.Phone }}</strong> - {{ phone.Note }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No contact numbers available.</p>
+            {% endif %}
+
+            <!-- Schedule Changes Section -->
+            <h5>Schedule Changes:</h5>
+            {% if doctor.changeschedule_set.all %}
+                <ul>
+                    {% for change in doctor.changeschedule_set.all %}
+                        <li>
+                            {% if change.Absence %}
+                                <strong>Absence:</strong> from {{ change.StartDate }} to {{ change.EndDate }}
+                            {% else %}
+                                <strong>Change in schedule:</strong> from {{ change.StartDate }} {{ change.StartTime }} to {{ change.EndDate }} {{ change.EndTime }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No recent changes to the schedule.</p>
+            {% endif %}
+
+            <!-- Link to return to doctor list -->
+            <a href="{% url 'doctor_list' %}" class="btn btn-primary mt-3">Back to Doctors List</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

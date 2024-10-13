@@ -1,0 +1,66 @@
+{% extends 'clinic/base.html' %}
+
+{% block title %}Service Details - {{ service.Name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Service Name -->
+    <h1 class="mb-4">{{ service.Name }}</h1>
+
+    <!-- Service Description -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Description</h5>
+            <p class="card-text">{{ service.Description }}</p>
+        </div>
+    </div>
+
+    <!-- Price List by Doctor Category -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Prices by Doctor Category</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Doctor Category</th>
+                        <th scope="col">Price (USD)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for price in service_prices %}
+                        <tr>
+                            <td>{{ price.Category.Name }}</td>
+                            <td>{{ price.Cost }} $</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2">No price information available for this service.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Related Services (Optional) -->
+    {% if related_services %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Related Services</h5>
+            <ul class="list-group">
+                {% for related_service in related_services %}
+                    <li class="list-group-item">
+                        <a href="{% url 'service_detail' related_service.id %}">
+                            {{ related_service.Name }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No related services available.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

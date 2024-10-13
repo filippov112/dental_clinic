@@ -1,0 +1,91 @@
+{% extends 'clinic/base.html' %}
+
+{% block title %}Schedule Appointment{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4 mb-3">Schedule a Doctor's Appointment</h2>
+
+    <!-- Display form errors, if any -->
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>There were some errors in your form:</strong>
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Appointment Form -->
+    <form method="post" action="{% url 'create_appointment' %}">
+        {% csrf_token %}
+
+        <!-- Patient Field -->
+        <div class="form-group">
+            <label for="id_patient">Select Patient</label>
+            <select name="Patient" id="id_patient" class="form-control">
+                {% for choice in form.Patient.field.choices %}
+                    <option value="{{ choice.0 }}"{% if choice.0 == form.Patient.value %} selected{% endif %}>{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+            {% if form.Patient.errors %}
+                <div class="text-danger">{{ form.Patient.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Doctor Field -->
+        <div class="form-group">
+            <label for="id_doctor">Select Doctor</label>
+            <select name="Doctor" id="id_doctor" class="form-control">
+                {% for choice in form.Doctor.field.choices %}
+                    <option value="{{ choice.0 }}"{% if choice.0 == form.Doctor.value %} selected{% endif %}>{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+            {% if form.Doctor.errors %}
+                <div class="text-danger">{{ form.Doctor.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Service Field -->
+        <div class="form-group">
+            <label for="id_service">Select Service</label>
+            <select name="Service" id="id_service" class="form-control">
+                {% for choice in form.Service.field.choices %}
+                    <option value="{{ choice.0 }}"{% if choice.0 == form.Service.value %} selected{% endif %}>{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
+            {% if form.Service.errors %}
+                <div class="text-danger">{{ form.Service.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Date Field -->
+        <div class="form-group">
+            <label for="id_date">Select Date</label>
+            <input type="date" name="Date" id="id_date" class="form-control" value="{{ form.Date.value }}">
+            {% if form.Date.errors %}
+                <div class="text-danger">{{ form.Date.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Time Field -->
+        <div class="form-group">
+            <label for="id_time">Select Time</label>
+            <input type="time" name="Time" id="id_time" class="form-control" value="{{ form.Time.value }}">
+            {% if form.Time.errors %}
+                <div class="text-danger">{{ form.Time.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Schedule Appointment</button>
+    </form>
+
+    <!-- Back Button -->
+    <a href="{% url 'patient_list' %}" class="btn btn-secondary mt-3">Back to Patient List</a>
+</div>
+{% endblock %}

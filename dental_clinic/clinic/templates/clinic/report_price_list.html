@@ -1,0 +1,22 @@
+<h2>Price List</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Service Name</th>
+            <th>Doctor Category</th>
+            <th>Specialization</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for service in services %}
+        <tr>
+            <td>{{ service.Service.Name }}</td>
+            <td>{{ service.Category.Name }}</td>
+            <td>{{ service.Service.Specialization.Name }}</td>
+            <td>${{ service.Cost }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

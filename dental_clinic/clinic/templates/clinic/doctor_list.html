@@ -1,0 +1,94 @@
+{% extends 'clinic/base.html' %}
+{% load static %}
+
+{% block title %}
+    Doctors List - Dental Clinic
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Doctors</h1>
+
+    <!-- Filter Section -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <form method="GET" action="{% url 'doctor_list' %}">
+                <div class="form-group">
+                    <label for="specialization">Specialization</label>
+                    <select id="specialization" name="specialization" class="form-control">
+                        <option value="">All Specializations</option>
+                        {% for specialization in specializations %}
+                            <option value="{{ specialization.id }}" {% if request.GET.specialization == specialization.id|stringformat:"s" %}selected{% endif %}>{{ specialization.Name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" class="form-control">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.Name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Doctor List -->
+    <div class="row">
+        {% for doctor in doctors %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <!-- Doctor Photo -->
+                    <img class="card-img-top" src="{% if doctor.Photo %}{{ doctor.Photo.url }}{% else %}{% static 'clinic/images/default_doctor.png' %}{% endif %}" alt="Doctor Photo">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ doctor.FirstName }} {{ doctor.LastName }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ doctor.Specialization.Name }}</h6>
+                        <p class="card-text">
+                            <strong>Category:</strong> {{ doctor.Category.Name }}<br>
+                            <strong>Schedule:</strong> {{ doctor.WorkSchedule }}
+                        </p>
+                        <a href="{% url 'doctor_detail' doctor.id %}" class="btn btn-info">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p>No doctors found matching the criteria.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        {% if is_paginated %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if request.GET.specialization %}specialization={{ request.GET.specialization }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+
+                {% for page in paginator.page_range %}
+                    {% if page == page_obj.number %}
+                        <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?{% if request.GET.specialization %}specialization={{ request.GET.specialization }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}page={{ page }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% if request.GET.specialization %}specialization={{ request.GET.specialization }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+

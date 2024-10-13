@@ -1,0 +1,29 @@
+{% extends "clinic/base.html" %}
+
+{% block title %}Confirm Delete Record{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Confirm Delete Appointment</h2>
+    <div class="alert alert-warning">
+        <strong>Warning!</strong> Are you sure you want to delete the following appointment?
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Appointment Details</h5>
+            <p><strong>Patient:</strong> {{ record.Patient.FirstName }} {{ record.Patient.LastName }}</p>
+            <p><strong>Doctor:</strong> {{ record.Doctor.FirstName }} {{ record.Doctor.LastName }}</p>
+            <p><strong>Date:</strong> {{ record.Date }}</p>
+            <p><strong>Time:</strong> {{ record.Time }}</p>
+            <p><strong>Service:</strong> {{ record.Service.Name }}</p>
+        </div>
+    </div>
+
+    <form method="post" action="{% url 'delete_record' record.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        <a href="{% url 'patient_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

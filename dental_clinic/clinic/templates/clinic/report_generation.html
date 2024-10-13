@@ -1,0 +1,67 @@
+{% extends 'clinic/base.html' %}
+
+{% block title %}Report Generation{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Generate a Report</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="report_type">Select Report Type:</label>
+            <select id="report_type" name="report_type" class="form-control" onchange="toggleFields()">
+                <option value="" selected disabled>-- Select Report Type --</option>
+                <option value="report_doctor_revenue">Doctor Revenue</option>
+                <option value="report_clinic_revenue">Clinic Revenue</option>
+                <option value="report_price_list">Price List</option>
+            </select>
+        </div>
+
+        <!-- Doctor Selection (for Doctor Revenue report) -->
+        <div id="doctor_field" class="form-group" style="display: none;">
+            <label for="doctor">Doctor:</label>
+            <select id="doctor" name="doctor" class="form-control">
+                <option value="" selected disabled>-- Select Doctor --</option>
+                {% for doctor in doctors %}
+                    <option value="{{ doctor.id }}">{{ doctor.FirstName }} {{ doctor.LastName }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Month Selection (for Doctor and Clinic Revenue reports) -->
+        <div id="month_field" class="form-group" style="display: none;">
+            <label for="month">Month:</label>
+            <input type="month" id="month" name="month" class="form-control">
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Generate Report</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleFields() {
+        var reportType = document.getElementById('report_type').value;
+        var doctorField = document.getElementById('doctor_field');
+        var monthField = document.getElementById('month_field');
+
+        // Hide all fields initially
+        doctorField.style.display = 'none';
+        monthField.style.display = 'none';
+
+        // Show fields based on selected report type
+        if (reportType === 'report_doctor_revenue') {
+            doctorField.style.display = 'block';
+            monthField.style.display = 'block';
+        } else if (reportType === 'report_clinic_revenue') {
+            monthField.style.display = 'block';
+        }
+    }
+</script>
+
+{% endblock %}
+
+

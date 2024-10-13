@@ -1,0 +1,15 @@
+{% extends 'clinic/base.html' %}
+
+{% block title %}Add Phone Number{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Add Phone Number for {{ patient.FirstName }} {{ patient.LastName }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Add Phone Number</button>
+        <a href="{% url 'patient_detail' patient.id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

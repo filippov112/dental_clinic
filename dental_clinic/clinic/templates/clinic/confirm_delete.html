@@ -1,0 +1,15 @@
+{% extends 'clinic/base.html' %}
+
+{% block title %}Confirm Deletion{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Confirm Deletion</h2>
+    <p>Are you sure you want to delete patient {{ patient.FirstName }} {{ patient.LastName }}?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        <a href="{% url 'patient_detail' patient.id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
