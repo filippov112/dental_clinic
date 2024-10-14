@@ -260,7 +260,7 @@ def render_pdf(url_template, contexto):
         False,
         options={'encoding': "utf-8", },
         configuration=pdfkit.configuration(wkhtmltopdf=settings.WKHTMLTOPDF_PATH),
-        css=settings.STATIC_ROOT + "/../mainapp/static/reports/css/reports.css"
+        css=settings.STATIC_ROOT + "/../clinic/static/reports/css/reports.css"
     )
 
 
@@ -318,8 +318,10 @@ def report_generation(request):
     Handles the selection and generation of various reports.
     """
     if request.method == 'POST':
+        mon = request.POST.get('month', '1900-01')
+        mon = '1900-01' if mon == '' else mon
         post = {
-            'month': datetime.strptime(request.POST.get('month', '1900-01'), '%Y-%m'),
+            'month': datetime.strptime(mon, '%Y-%m'),
             'report_type': request.POST.get('report_type', ''),
             'doctor': request.POST.get('doctor', None)
         }

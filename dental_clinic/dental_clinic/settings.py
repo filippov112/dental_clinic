@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dental_clinic_db',
         'USER': 'postgres',
-        'PASSWORD': '12345678',
+        'PASSWORD': '3347',
         'HOST': 'localhost',
         'PORT': '5432',
     }
