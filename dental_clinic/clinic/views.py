@@ -312,6 +312,8 @@ def get_context_report(report, doctor=None, month=None):
 
 
 from datetime import datetime
+
+
 @login_required
 def report_generation(request):
     """
@@ -395,6 +397,7 @@ def password_reset(request):
     return render(request, 'clinic/password_reset.html', {'form': form})
 
 
+@login_required
 def add_phone(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
 
@@ -412,6 +415,7 @@ def add_phone(request, patient_id):
     return render(request, 'clinic/add_phone.html', {'form': form, 'patient': patient})
 
 
+@login_required
 def add_address(request, patient_id):
     # Get the patient object
     patient = get_object_or_404(Patient, id=patient_id)
@@ -443,11 +447,13 @@ def add_address(request, patient_id):
     return render(request, 'clinic/add_address.html', {'form': form, 'patient': patient})
 
 
+@login_required
 def confirm_delete_patient(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
     return render(request, 'clinic/confirm_delete.html', {'patient': patient})
 
 
+@login_required
 def delete_patient(request, patient_id):
     # Check if the request is a POST request
     if request.method == "POST":
@@ -465,6 +471,7 @@ def delete_patient(request, patient_id):
         return redirect('patient_list')
 
 
+@login_required
 def delete_phone(request, phone_id):
     """
     Deletes a phone number based on the provided phone ID.
